@@ -1,7 +1,11 @@
 <template>
-  <nav class="navbar bg-dark" data-bs-theme="dark">
+  <nav
+    class="navbar bg-primary justify-content-between mb-4 px-4 navbar-dark"
+    data-bs-theme="dark"
+  >
     <a class="navbar-brand" href="#">者也专栏</a>
     <ul v-if="!user.isLogin" class="list-inline mb-0">
+      <!-- 未登录 -->
       <li class="list-inline-item">
         <button class="btn btn-outline-success" type="submit">登录</button>
       </li>
@@ -10,23 +14,24 @@
       </li>
     </ul>
     <ul v-else class="list-inline mb-0">
+      <!-- 登录 -->
       <li class="list-inline-item">
+        <dropdown :title="'你好 ${user.name}'">
+          <dropdown-item
+            ><a class="dropdown-item" href="#">新建文章</a></dropdown-item
+          >
+          <dropdown-item
+            ><a class="dropdown-item" href="#">编辑资料</a></dropdown-item
+          >
+          <dropdown-item
+            ><a class="dropdown-item" href="#">退出登陆</a></dropdown-item
+          >
+        </dropdown>
         <button class="btn btn-outline-success" type="submit">
           你好{{ user.name }}
         </button>
       </li>
     </ul>
-    <dropdown :title="'你好 ${user.name}'">
-      <dropdown-item
-        ><a class="dropdown-item" href="#">新建文章</a></dropdown-item
-      >
-      <dropdown-item
-        ><a class="dropdown-item" href="#">编辑资料</a></dropdown-item
-      >
-      <dropdown-item
-        ><a class="dropdown-item" href="#">退出登陆</a></dropdown-item
-      >
-    </dropdown>
   </nav>
 </template>
 
@@ -35,7 +40,7 @@ import { defineComponent, PropType } from 'vue'
 import Dropdown from './DropDown.vue'
 import DropdownItem from './DropdownItem.vue'
 export interface UserProps {
-  isLogin: number
+  isLogin: boolean
   name?: string
   id?: number
 }

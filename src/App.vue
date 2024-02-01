@@ -1,8 +1,8 @@
 <template>
   <div class="container">
+    <global-header :user="currentUser"></global-header>
     <column-list :list="list"></column-list>
-    <!-- <global-header :user="currentUser"></global-header> -->
-    <form>
+    <!-- <form>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
         <input
@@ -28,7 +28,7 @@
         <label class="form-check-label" for="exampleCheck1">Check me out</label>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </form> -->
   </div>
 </template>
 
@@ -38,6 +38,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import ColumnList, { ColumnProps } from './components/ColumnList.vue'
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue'
 
+const currentUser: UserProps = {
+  isLogin: true,
+  name: test
+}
 const testdata: ColumnProps[] = [
   {
     id: 1,
@@ -84,7 +88,8 @@ export default defineComponent({
   name: 'App',
   setup () {
     return {
-      list: testdata
+      list: testdata,
+      currentUser
     }
   }
 })
