@@ -1,22 +1,19 @@
 <template>
   <div class="container">
     <global-header :user="currentUser"></global-header>
-    <column-list :list="list"></column-list>
-    <!-- <form>
+    <!--  <column-list :list="list"></column-list> -->
+    <form>
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input
-          type="email"
-          class="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp"
-        />
-        <div id="emailHelp" class="form-text">
-          We'll never share your email with anyone else.
-        </div>
+        <label class="form-label">邮箱地址</label>
+        <validate-input :rules="emailRules"></validate-input>
       </div>
+
       <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
+      </div>
+      <div class="form-text" v-if="emailRef.error">{{ emailRef.message }}</div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">密码</label>
         <input
           type="password"
           class="form-control"
@@ -28,19 +25,22 @@
         <label class="form-check-label" for="exampleCheck1">Check me out</label>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
-    </form> -->
+    </form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import ColumnList, { ColumnProps } from './components/ColumnList.vue'
+import ValidateInput, { RulesProp } from './components/ValidateInput.vue'
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue'
 
+import Home from './views/Home.vue'
+import Login from './views/Login.vue'
 const currentUser: UserProps = {
   isLogin: true,
-  name: test
+  name: 'test'
 }
 const testdata: ColumnProps[] = [
   {
@@ -83,13 +83,19 @@ const testdata: ColumnProps[] = [
 
 export default defineComponent({
   // eslint-disable-next-line vue/no-unused-components
-  components: { ColumnList, GlobalHeader },
+  components: { ColumnList, GlobalHeader, ValidateInput },
 
   name: 'App',
   setup () {
+    const emailRules: RulesProp = [
+      { type: 'required', message: '电子邮件地址不能为空' },
+      { type: 'email', message: '请输入正确的d电子邮箱格式' }
+    ]
     return {
       list: testdata,
-      currentUser
+      currentUser,
+      /* emailRef, */
+      emailRules
     }
   }
 })

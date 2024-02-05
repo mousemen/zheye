@@ -13,10 +13,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-/* export interface ColumnProps{
-
-} */
+import { defineComponent, ref, watch } from 'vue'
+import useClickOutside from '../hooks/useClickOutside'
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Dropdown',
@@ -28,12 +26,22 @@ export default defineComponent({
   },
   setup () {
     const isOpen = ref(false)
+    const dropdownref = ref<null | HTMLElement>(null)
     const toggleOpen = () => {
       isOpen.value = !isOpen.value
     }
+
+    const isclickoutside = useClickOutside(dropdownref)
+    watch(isclickoutside, () => {
+      if (isOpen.value && isclickoutside.value) {
+        isOpen.value = false
+      }
+    })
+
     return {
       isOpen,
-      toggleOpen
+      toggleOpen,
+      dropdownref
     }
   }
 })
